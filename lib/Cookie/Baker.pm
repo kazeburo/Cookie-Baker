@@ -1,0 +1,164 @@
+package Cookie::Baker;
+
+use 5.008005;
+use strict;
+use warnings;
+use base qw/Exporter/;
+use URI::Escape;
+
+our $VERSION = "0.01";
+our @EXPORT = qw/bake_cookie/;
+
+sub bake_cookie {
+    my ($name,$val) = @_;
+    
+    return '' unless defined $val;
+    my %args = ref $val ? %{$val} : (value => $val);
+    
+    my @cookie = ( URI::Escape::uri_escape($name) . "=" . URI::Escape::uri_escape($args{value}) );
+    push @cookie, "domain=" . $args{domain}   if $args{domain};
+    push @cookie, "path=" . $args{path}       if $args{path};
+    push @cookie, "expires=" . _date($args{expires}) if $args{expires};
+    push @cookie, "max-age=" . $args{"max-age"} if $args{"max-age"};
+    push @cookie, "secure"                     if $args{secure};
+    push @cookie, "HttpOnly"                   if $args{httponly};
+
+}
+
+my @MON  = qw( Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec );
+my @WDAY = qw( Sun Mon Tue Wed Thu Fri Sat );
+
+my %term = {
+    's' => 1,
+    'm' => 60,
+    'h' => 3600,
+    'd' => 86400,
+    'M' => 86400 * 30,
+    'y' => 86400 * 365,
+};
+
+sub _date {
+    my $expires = shift;
+
+    my $expires_at;
+    if ($expires =~ /^\d+$/) {
+        # all numbers -> epoch date
+        $expires_at = $expires;
+    }
+    elsif ( $expires =~ /^([-+]?(?:\d+|\d*\.\d*))([smhdMy]?)/ ) {
+        no warnings;
+        my $offset = ($term{$2} || 1) * $1;
+        $expires_at = time + $offset;
+    }
+    elsif ( $expires  eq 'now' ) {
+        $expires_at = time;
+    }
+    else {
+        return $expires;
+    }
+    my($sec, $min, $hour, $mday, $mon, $year, $wday) = gmtime($expires_at);
+    $year += 1900;
+    # (cookies use '-' as date separator, HTTP uses ' ')    
+    return sprintf("%s, %02d-%s-%04d %02d:%02d:%02d GMT",
+                   $WDAY[$wday], $mday, $MON[$mon], $year, $hour, $min, $sec);
+}
+
+1;
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+Cookie::Baker - Cookie string generator
+
+=head1 SYNOPSIS
+
+    use Cookie::Baker;
+
+    $headers->push_header('Set-Cookie', bake_cookie($key,$val));
+
+=head1 DESCRIPTION
+
+Cookie::Baker is simple cookie string generator.
+
+=head1 FUNCTION
+
+=over 4
+
+=item bake_cookie
+
+  my $cookie = bake_cookie('foo','val');
+  my $cookie = bake_cookie('foo', {
+      val => 'val',
+      path => "test",
+      domain => '.example.com',
+      expires => '+24h'
+  } );
+
+Generates cookie string for HTTP response header.
+First argument is cookies' name and seconds argument is plain string or hash reference that
+can contain keys such as C<value>, C<domain>, C<expires>, C<path>, C<httponly>, C<secure>,
+C<max-age>.
+
+
+=over 4
+
+=item value
+
+Cookie's value
+
+=item domain
+
+Cookie's domain.
+
+=item expires
+
+Cookie's expires date time. several formats are supported
+
+  expires => time + 24 * 60 * 60 # epoch time
+  expires => 'Wed, 03-Nov-2010 20:54:16 GMT' 
+  expires => '+30s' # 30 seconds from now
+  expires => '+10m' # ten minutes from now
+  expires => '+1h'  # one hour from now 
+  expires => '-1d'  # yesterday (i.e. "ASAP!")
+  expires => '+3M'  # in three months
+  expires => '+10y' # in ten years time
+  expires => 'now'  #immediately
+
+=item path
+
+Cookie's path.
+
+=item httponly
+
+If true, give HttpOnly flag. false by default.
+
+=item secure
+
+If true, give secure flag. false by default.
+
+=back
+
+=back
+
+=head1 SEE ALSO
+
+CPAN already has many cookie related modules. But there is not simple Cookie generator modules.
+Some Plack::Middleware::* or Web applications frameworks may use this.
+
+L<CGI>, L<CGI::Simple>, L<Plack>, L<Dancer::Cookie>
+
+=head1 LICENSE
+
+Copyright (C) Masahiro Nagano.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=head1 AUTHOR
+
+Masahiro Nagano E<lt>kazeburo@gmail.comE<gt>
+
+=cut
+
