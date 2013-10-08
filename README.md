@@ -1,6 +1,6 @@
 # NAME
 
-Cookie::Baker - Cookie string generator
+Cookie::Baker - Cookie string generator / parser
 
 # SYNOPSIS
 
@@ -8,9 +8,11 @@ Cookie::Baker - Cookie string generator
 
     $headers->push_header('Set-Cookie', bake_cookie($key,$val));
 
+    my $cookies_hashref = crush_cookie($headers->header('Cookie'));
+
 # DESCRIPTION
 
-Cookie::Baker is simple cookie string generator.
+Cookie::Baker provides simple cookie string generator and parser.
 
 # FUNCTION
 
@@ -65,10 +67,15 @@ Cookie::Baker is simple cookie string generator.
 
         If true, give secure flag. false by default.
 
+- crush\_cookie
+
+    Parses cookie string and returns hashref
+
+        my $cookies_hashref = crush_cookie($headers->header('Cookie'));
+
 # SEE ALSO
 
-CPAN already has many cookie related modules. But there is not simple Cookie generator modules.
-Some Plack::Middleware::\* or Web applications frameworks may use this.
+CPAN already has many cookie related modules. But there is not simple cookie string generator and parser modules.
 
 [CGI](http://search.cpan.org/perldoc?CGI), [CGI::Simple](http://search.cpan.org/perldoc?CGI::Simple), [Plack](http://search.cpan.org/perldoc?Plack), [Dancer::Cookie](http://search.cpan.org/perldoc?Dancer::Cookie)
 

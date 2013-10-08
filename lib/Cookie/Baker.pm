@@ -7,7 +7,7 @@ use base qw/Exporter/;
 use URI::Escape;
 
 our $VERSION = "0.01";
-our @EXPORT = qw/bake_cookie/;
+our @EXPORT = qw/bake_cookie crush_cookie/;
 
 sub bake_cookie {
     my ($name,$val) = @_;
@@ -22,20 +22,20 @@ sub bake_cookie {
     push @cookie, "max-age=" . $args{"max-age"} if $args{"max-age"};
     push @cookie, "secure"                     if $args{secure};
     push @cookie, "HttpOnly"                   if $args{httponly};
-
+    join '; ', @cookie;
 }
 
 my @MON  = qw( Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec );
 my @WDAY = qw( Sun Mon Tue Wed Thu Fri Sat );
 
-my %term = {
+my %term = (
     's' => 1,
     'm' => 60,
     'h' => 3600,
     'd' => 86400,
     'M' => 86400 * 30,
     'y' => 86400 * 365,
-};
+);
 
 sub _date {
     my $expires = shift;
@@ -63,6 +63,23 @@ sub _date {
                    $WDAY[$wday], $mday, $MON[$mon], $year, $hour, $min, $sec);
 }
 
+sub crush_cookie {
+    my $cookie_string = shift;
+    return {} unless $cookie_string;
+    my %results;
+    my @pairs = grep m/=/, split "[;,] ?", $cookie_string;
+    for my $pair ( @pairs ) {
+        # trim leading trailing whitespace
+        $pair =~ s/^\s+//; $pair =~ s/\s+$//;
+
+        my ($key, $value) = map URI::Escape::uri_unescape($_), split( "=", $pair, 2 );
+
+        # Take the first one like CGI.pm or rack do
+        $results{$key} = $value unless exists $results{$key};
+    }
+    return \%results;
+}
+
 1;
 __END__
 
@@ -70,7 +87,7 @@ __END__
 
 =head1 NAME
 
-Cookie::Baker - Cookie string generator
+Cookie::Baker - Cookie string generator / parser
 
 =head1 SYNOPSIS
 
@@ -78,9 +95,11 @@ Cookie::Baker - Cookie string generator
 
     $headers->push_header('Set-Cookie', bake_cookie($key,$val));
 
+    my $cookies_hashref = crush_cookie($headers->header('Cookie'));
+
 =head1 DESCRIPTION
 
-Cookie::Baker is simple cookie string generator.
+Cookie::Baker provides simple cookie string generator and parser.
 
 =head1 FUNCTION
 
@@ -140,12 +159,17 @@ If true, give secure flag. false by default.
 
 =back
 
+=item crush_cookie
+
+Parses cookie string and returns hashref
+
+    my $cookies_hashref = crush_cookie($headers->header('Cookie'));
+
 =back
 
 =head1 SEE ALSO
 
-CPAN already has many cookie related modules. But there is not simple Cookie generator modules.
-Some Plack::Middleware::* or Web applications frameworks may use this.
+CPAN already has many cookie related modules. But there is not simple cookie string generator and parser modules.
 
 L<CGI>, L<CGI::Simple>, L<Plack>, L<Dancer::Cookie>
 

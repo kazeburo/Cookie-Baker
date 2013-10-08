@@ -1,5 +1,5 @@
 {
-   "abstract" : "Cookie string generator",
+   "abstract" : "Cookie string generator / parser",
    "author" : [
       "Masahiro Nagano <kazeburo@gmail.com>"
    ],
@@ -43,15 +43,29 @@
       },
       "runtime" : {
          "requires" : {
+            "Exporter" : "0",
+            "URI::Escape" : "0",
             "perl" : "5.008005"
          }
       },
       "test" : {
          "requires" : {
-            "Test::More" : "0.98"
+            "Test::More" : "0.98",
+            "Test::Time" : "0"
          }
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/kazeburo/Cookie-Baker/issues"
+      },
+      "homepage" : "https://github.com/kazeburo/Cookie-Baker",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/kazeburo/Cookie-Baker.git",
+         "web" : "https://github.com/kazeburo/Cookie-Baker"
+      }
+   },
    "version" : "0.01"
 }
