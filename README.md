@@ -20,7 +20,7 @@ Cookie::Baker provides simple cookie string generator and parser.
 
         my $cookie = bake_cookie('foo','val');
         my $cookie = bake_cookie('foo', {
-            val => 'val',
+            value => 'val',
             path => "test",
             domain => '.example.com',
             expires => '+24h'
@@ -69,9 +69,10 @@ Cookie::Baker provides simple cookie string generator and parser.
 
 - crush\_cookie
 
-    Parses cookie string and returns hashref
+    Parses cookie string and returns hashref. 
 
         my $cookies_hashref = crush_cookie($headers->header('Cookie'));
+        my $cookie_value = $cookies_hashref->{cookie_name}  
 
 # SEE ALSO
 

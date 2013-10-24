@@ -11,18 +11,19 @@ our @EXPORT = qw/bake_cookie crush_cookie/;
 
 sub bake_cookie {
     my ($name,$val) = @_;
-    
+
     return '' unless defined $val;
     my %args = ref $val ? %{$val} : (value => $val);
     
-    my @cookie = ( URI::Escape::uri_escape($name) . "=" . URI::Escape::uri_escape($args{value}) );
-    push @cookie, "domain=" . $args{domain}   if $args{domain};
-    push @cookie, "path=" . $args{path}       if $args{path};
-    push @cookie, "expires=" . _date($args{expires}) if $args{expires};
-    push @cookie, "max-age=" . $args{"max-age"} if $args{"max-age"};
-    push @cookie, "secure"                     if $args{secure};
-    push @cookie, "HttpOnly"                   if $args{httponly};
-    join '; ', @cookie;
+    my $cookie = URI::Escape::uri_escape($name) . "=" . URI::Escape::uri_escape($args{value}) . '; ';
+    $cookie .= 'domain=' . $args{domain} . '; '  if $args{domain};
+    $cookie .= 'path='. $args{path} . '; '       if $args{path};
+    $cookie .= 'expires=' . _date($args{expires}) . '; ' if $args{expires};
+    $cookie .= 'max-age=' . $args{"max-age"} . '; ' if $args{"max-age"};
+    $cookie .= 'secure; '                     if $args{secure};
+    $cookie .= 'HttpOnly; '                   if $args{httponly};
+    substr($cookie,-2,2,'');
+    $cookie;
 }
 
 my @MON  = qw( Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec );
@@ -109,7 +110,7 @@ Cookie::Baker provides simple cookie string generator and parser.
 
   my $cookie = bake_cookie('foo','val');
   my $cookie = bake_cookie('foo', {
-      val => 'val',
+      value => 'val',
       path => "test",
       domain => '.example.com',
       expires => '+24h'
@@ -161,9 +162,10 @@ If true, give secure flag. false by default.
 
 =item crush_cookie
 
-Parses cookie string and returns hashref
+Parses cookie string and returns hashref. 
 
     my $cookies_hashref = crush_cookie($headers->header('Cookie'));
+    my $cookie_value = $cookies_hashref->{cookie_name}  
 
 =back
 
