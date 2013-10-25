@@ -6,7 +6,7 @@ use warnings;
 use base qw/Exporter/;
 use URI::Escape;
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 our @EXPORT = qw/bake_cookie crush_cookie/;
 
 sub bake_cookie {

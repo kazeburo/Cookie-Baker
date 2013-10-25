@@ -2,6 +2,10 @@ Revision history for Perl extension Cookie-Baker
 
 {{$NEXT}}
 
+0.02 2013-10-25T00:08:34Z
+
+    - fix a document bug
+
 0.01 2013-10-08T01:46:21Z
 
     - original version
