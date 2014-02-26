@@ -6,16 +6,31 @@ use warnings;
 use base qw/Exporter/;
 use URI::Escape;
 
-our $VERSION = "0.02";
-our @EXPORT = qw/bake_cookie crush_cookie/;
+BEGIN {
+    our $VERSION = "0.02";
+    our @EXPORT = qw/bake_cookie crush_cookie/;
+    my $use_pp = $ENV{COOKIE_BAKER_PP};
+    if (!$use_pp) {
+        eval {
+            require Cookie::Baker::XS;
+        };
+        $use_pp = !!$@;
+    }
+    if ($use_pp) {
+        *crush_cookie = \&pp_crush_cookie;
+    }
+    else {
+        *crush_cookie = \&Cookie::Baker::XS::crush_cookie;
+    }
+}
 
 sub bake_cookie {
     my ($name,$val) = @_;
 
     return '' unless defined $val;
     my %args = ref $val ? %{$val} : (value => $val);
-    
-    my $cookie = URI::Escape::uri_escape($name) . "=" . URI::Escape::uri_escape($args{value}) . '; ';
+    $name = URI::Escape::uri_escape($name) if $name =~ m![^a-zA-Z\-\._~]!;
+    my $cookie = "$name=" . URI::Escape::uri_escape($args{value}) . '; ';
     $cookie .= 'domain=' . $args{domain} . '; '  if $args{domain};
     $cookie .= 'path='. $args{path} . '; '       if $args{path};
     $cookie .= 'expires=' . _date($args{expires}) . '; ' if $args{expires};
@@ -64,7 +79,7 @@ sub _date {
                    $WDAY[$wday], $mday, $MON[$mon], $year, $hour, $min, $sec);
 }
 
-sub crush_cookie {
+sub pp_crush_cookie {
     my $cookie_string = shift;
     return {} unless $cookie_string;
     my %results;
@@ -101,6 +116,13 @@ Cookie::Baker - Cookie string generator / parser
 =head1 DESCRIPTION
 
 Cookie::Baker provides simple cookie string generator and parser.
+
+=head1 XS IMPLEMENTATION
+
+This module try to use L<Cookie::Baker::XS>'s crush_cookie by default
+and fail to it, use Cookie::Baker's pure-perl crush_cookie.
+
+There is no XS implementation of bake_cookie yet.
 
 =head1 FUNCTION
 

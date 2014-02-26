@@ -14,6 +14,13 @@ Cookie::Baker - Cookie string generator / parser
 
 Cookie::Baker provides simple cookie string generator and parser.
 
+# XS IMPLEMENTATION
+
+This module try to use [Cookie::Baker::XS](http://search.cpan.org/perldoc?Cookie::Baker::XS)'s crush\_cookie by default
+and fail to it, use Cookie::Baker's pure-perl crush\_cookie.
+
+There is no XS implementation of bake\_cookie yet.
+
 # FUNCTION
 
 - bake\_cookie
