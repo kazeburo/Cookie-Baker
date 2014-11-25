@@ -7,7 +7,7 @@ use base qw/Exporter/;
 use URI::Escape;
 
 BEGIN {
-    our $VERSION = "0.03";
+    our $VERSION = "0.04";
     our @EXPORT = qw/bake_cookie crush_cookie/;
     my $use_pp = $ENV{COOKIE_BAKER_PP};
     if (!$use_pp) {

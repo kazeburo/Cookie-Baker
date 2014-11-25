@@ -16,8 +16,8 @@ Cookie::Baker provides simple cookie string generator and parser.
 
 # XS IMPLEMENTATION
 
-This module try to use [Cookie::Baker::XS](https://metacpan.org/pod/Cookie::Baker::XS)'s crush\_cookie by default
-and fail to it, use Cookie::Baker's pure-perl crush\_cookie.
+This module tries to use [Cookie::Baker::XS](https://metacpan.org/pod/Cookie::Baker::XS)'s crush\_cookie by default.
+If this fails, it will use Cookie::Baker's pure Perl crush\_cookie.
 
 There is no XS implementation of bake\_cookie yet.
 
@@ -33,8 +33,8 @@ There is no XS implementation of bake\_cookie yet.
             expires => '+24h'
         } );
 
-    Generates cookie string for HTTP response header.
-    First argument is cookies' name and seconds argument is plain string or hash reference that
+    Generates a cookie string for an HTTP response header.
+    The first argument is the cookie's name and the second argument is a plain string or hash reference that
     can contain keys such as `value`, `domain`, `expires`, `path`, `httponly`, `secure`,
     `max-age`.
 
@@ -48,7 +48,7 @@ There is no XS implementation of bake\_cookie yet.
 
     - expires
 
-        Cookie's expires date time. several formats are supported
+        Cookie's expires date time. Several formats are supported
 
             expires => time + 24 * 60 * 60 # epoch time
             expires => 'Wed, 03-Nov-2010 20:54:16 GMT' 
@@ -66,22 +66,22 @@ There is no XS implementation of bake\_cookie yet.
 
     - httponly
 
-        If true, give HttpOnly flag. false by default.
+        If true, sets HttpOnly flag. false by default.
 
     - secure
 
-        If true, give secure flag. false by default.
+        If true, sets secure flag. false by default.
 
 - crush\_cookie
 
-    Parses cookie string and returns hashref. 
+    Parses cookie string and returns a hashref. 
 
         my $cookies_hashref = crush_cookie($headers->header('Cookie'));
         my $cookie_value = $cookies_hashref->{cookie_name}  
 
 # SEE ALSO
 
-CPAN already has many cookie related modules. But there is not simple cookie string generator and parser modules.
+CPAN already has many cookie related modules. But there is no simple cookie string generator and parser module.
 
 [CGI](https://metacpan.org/pod/CGI), [CGI::Simple](https://metacpan.org/pod/CGI::Simple), [Plack](https://metacpan.org/pod/Plack), [Dancer::Cookie](https://metacpan.org/pod/Dancer::Cookie)
 
