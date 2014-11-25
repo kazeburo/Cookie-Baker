@@ -1,6 +1,6 @@
 package Cookie::Baker;
 
-use 5.008005;
+use 5.008001;
 use strict;
 use warnings;
 use base qw/Exporter/;

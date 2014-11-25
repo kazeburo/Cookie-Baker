@@ -16,7 +16,7 @@ Cookie::Baker provides simple cookie string generator and parser.
 
 # XS IMPLEMENTATION
 
-This module try to use [Cookie::Baker::XS](http://search.cpan.org/perldoc?Cookie::Baker::XS)'s crush\_cookie by default
+This module try to use [Cookie::Baker::XS](https://metacpan.org/pod/Cookie::Baker::XS)'s crush\_cookie by default
 and fail to it, use Cookie::Baker's pure-perl crush\_cookie.
 
 There is no XS implementation of bake\_cookie yet.
@@ -37,8 +37,6 @@ There is no XS implementation of bake\_cookie yet.
     First argument is cookies' name and seconds argument is plain string or hash reference that
     can contain keys such as `value`, `domain`, `expires`, `path`, `httponly`, `secure`,
     `max-age`.
-
-
 
     - value
 
@@ -85,7 +83,7 @@ There is no XS implementation of bake\_cookie yet.
 
 CPAN already has many cookie related modules. But there is not simple cookie string generator and parser modules.
 
-[CGI](http://search.cpan.org/perldoc?CGI), [CGI::Simple](http://search.cpan.org/perldoc?CGI::Simple), [Plack](http://search.cpan.org/perldoc?Plack), [Dancer::Cookie](http://search.cpan.org/perldoc?Dancer::Cookie)
+[CGI](https://metacpan.org/pod/CGI), [CGI::Simple](https://metacpan.org/pod/CGI::Simple), [Plack](https://metacpan.org/pod/Plack), [Dancer::Cookie](https://metacpan.org/pod/Dancer::Cookie)
 
 # LICENSE
 
