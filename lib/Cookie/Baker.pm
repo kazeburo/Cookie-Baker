@@ -119,8 +119,8 @@ Cookie::Baker provides simple cookie string generator and parser.
 
 =head1 XS IMPLEMENTATION
 
-This module try to use L<Cookie::Baker::XS>'s crush_cookie by default
-and fail to it, use Cookie::Baker's pure-perl crush_cookie.
+This module tries to use L<Cookie::Baker::XS>'s crush_cookie by default.
+If this fails, it will use Cookie::Baker's pure Perl crush_cookie.
 
 There is no XS implementation of bake_cookie yet.
 
@@ -138,8 +138,8 @@ There is no XS implementation of bake_cookie yet.
       expires => '+24h'
   } );
 
-Generates cookie string for HTTP response header.
-First argument is cookies' name and seconds argument is plain string or hash reference that
+Generates a cookie string for an HTTP response header.
+The first argument is the cookie's name and the second argument is a plain string or hash reference that
 can contain keys such as C<value>, C<domain>, C<expires>, C<path>, C<httponly>, C<secure>,
 C<max-age>.
 
@@ -156,7 +156,7 @@ Cookie's domain.
 
 =item expires
 
-Cookie's expires date time. several formats are supported
+Cookie's expires date time. Several formats are supported
 
   expires => time + 24 * 60 * 60 # epoch time
   expires => 'Wed, 03-Nov-2010 20:54:16 GMT' 
@@ -174,17 +174,17 @@ Cookie's path.
 
 =item httponly
 
-If true, give HttpOnly flag. false by default.
+If true, sets HttpOnly flag. false by default.
 
 =item secure
 
-If true, give secure flag. false by default.
+If true, sets secure flag. false by default.
 
 =back
 
 =item crush_cookie
 
-Parses cookie string and returns hashref. 
+Parses cookie string and returns a hashref. 
 
     my $cookies_hashref = crush_cookie($headers->header('Cookie'));
     my $cookie_value = $cookies_hashref->{cookie_name}  
@@ -193,7 +193,7 @@ Parses cookie string and returns hashref.
 
 =head1 SEE ALSO
 
-CPAN already has many cookie related modules. But there is not simple cookie string generator and parser modules.
+CPAN already has many cookie related modules. But there is no simple cookie string generator and parser module.
 
 L<CGI>, L<CGI::Simple>, L<Plack>, L<Dancer::Cookie>
 
