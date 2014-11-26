@@ -2,6 +2,10 @@ Revision history for Perl extension Cookie-Baker
 
 {{$NEXT}}
 
+0.05 2014-11-26T05:49:50Z
+
+   - fix bug. accepts expires => 0
+
 0.04 2014-11-25T02:36:43Z
 
     - requires perl-5.8.1
