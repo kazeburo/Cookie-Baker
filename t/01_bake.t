@@ -23,6 +23,8 @@ my @tests = (
     [ 'foo', { value => 'val',expires => '-1d' }, 'foo=val; expires=Sun, 06-Oct-2013 13:56:57 GMT'],
     [ 'foo', { value => 'val',expires => '+1M' }, 'foo=val; expires=Wed, 06-Nov-2013 13:56:57 GMT'],
     [ 'foo', { value => 'val',expires => '+1y' }, 'foo=val; expires=Tue, 07-Oct-2014 13:56:57 GMT'],
+    [ 'foo', { value => 'val',expires => '0' }, 'foo=val; expires=Thu, 01-Jan-1970 00:00:00 GMT'],
+    [ 'foo', { value => 'val',expires => '-1' }, 'foo=val; expires=Mon, 07-Oct-2013 13:56:56 GMT'],
     [ 'foo', { value => 'val',expires => 'foo' }, 'foo=val; expires=foo'],
 );
 
