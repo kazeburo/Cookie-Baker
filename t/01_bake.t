@@ -10,6 +10,7 @@ my @tests = (
     [ 'foo', 'val', 'foo=val'],
     [ 'foo', { value => 'val' }, 'foo=val'],
     [ 'foo', { value => 'foo bar baz' }, 'foo=foo%20bar%20baz'],
+    [ 'foo', { value => 'val',expires => undef }, 'foo=val'],
     [ 'foo', { value => 'val',path => '/' }, 'foo=val; path=/'],
     [ 'foo', { value => 'val',path => '/', secure => 1, httponly => 0 }, 'foo=val; path=/; secure'],
     [ 'foo', { value => 'val',path => '/', secure => 0, httponly => 1 }, 'foo=val; path=/; HttpOnly'],
