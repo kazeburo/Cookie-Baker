@@ -33,7 +33,7 @@ sub bake_cookie {
     my $cookie = "$name=" . URI::Escape::uri_escape($args{value}) . '; ';
     $cookie .= 'domain=' . $args{domain} . '; '  if $args{domain};
     $cookie .= 'path='. $args{path} . '; '       if $args{path};
-    $cookie .= 'expires=' . _date($args{expires}) . '; ' if exists $args{expires};
+    $cookie .= 'expires=' . _date($args{expires}) . '; ' if exists $args{expires} && defined $args{expires};
     $cookie .= 'max-age=' . $args{"max-age"} . '; ' if $args{"max-age"};
     $cookie .= 'secure; '                     if $args{secure};
     $cookie .= 'HttpOnly; '                   if $args{httponly};
