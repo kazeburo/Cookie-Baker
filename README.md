@@ -72,6 +72,12 @@ There is no XS implementation of bake\_cookie yet.
 
         If true, sets secure flag. false by default.
 
+    - samesite
+
+        If defined as 'lax' or 'strict' (case-insensitive), sets the SameSite restriction for the cookie as described in the
+        L<draft proposal|https://tools.ietf.org/html/draft-west-first-party-cookies-07>, which is already implemented in
+        Chrome (v51), Opera (v38) and Firefox (v60).
+
 - crush\_cookie
 
     Parses cookie string and returns a hashref.
