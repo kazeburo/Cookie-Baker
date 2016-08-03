@@ -159,7 +159,7 @@ C<max-age>.
 
 =item value
 
-Cookie's value
+Cookie's value.
 
 =item domain
 
@@ -167,7 +167,7 @@ Cookie's domain.
 
 =item expires
 
-Cookie's expires date time. Several formats are supported
+Cookie's expires date time. Several formats are supported:
 
   expires => time + 24 * 60 * 60 # epoch time
   expires => 'Wed, 03-Nov-2010 20:54:16 GMT'
@@ -178,6 +178,10 @@ Cookie's expires date time. Several formats are supported
   expires => '+3M'  # in three months
   expires => '+10y' # in ten years time (60*60*24*365*10 seconds)
   expires => 'now'  #immediately
+
+=item max-age
+
+If defined, sets the max-age for the cookie.
 
 =item path
 
