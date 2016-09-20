@@ -88,7 +88,6 @@ sub pp_crush_cookie {
         # trim leading trailing whitespace
         $pair =~ s/^\s+//; $pair =~ s/\s+$//;
 
-        #my ($key, $value) = map URI::Escape::uri_unescape($_), split( "=", $pair, 2 );
         my ($key, $value) = split( "=", $pair, 2 );
 
         $key = URI::Escape::uri_unescape($key);
