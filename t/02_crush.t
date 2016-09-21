@@ -16,7 +16,17 @@ my @tests = (
     [ 'Foo=Bar; Bar=Baz;  XXX=Foo%20Bar   ; YYY=;', { Foo => 'Bar', Bar => 'Baz', XXX => 'Foo Bar', YYY=>"" }],
     [ 'Foo=Bar; Bar=Baz;  XXX=Foo%20Bar   ; YYY=; ', { Foo => 'Bar', Bar => 'Baz', XXX => 'Foo Bar',YYY=>"" }],
     [ "Foo=Bar; $longkey=Bar", { Foo => 'Bar', $longkey => 'Bar'}],
-    [ "Foo=Bar; $longkey=Bar; Bar=Baz", { Foo => 'Bar', $longkey => 'Bar', 'Bar'=>'Baz'}], 
+    [ "Foo=Bar; $longkey=Bar; Bar=Baz", { Foo => 'Bar', $longkey => 'Bar', 'Bar'=>'Baz'}],
+
+    # from https://github.com/plack/Plack/pull/564/files
+    [ 'ZZZ="spaced out";', { ZZZ => 'spaced out' }],
+    [ 'ZZTOP=%22with%20quotes%22;', { ZZTOP => '"with quotes"' }],
+    [ 'BOTH="%22internal quotes%22";', { BOTH => '"internal quotes"'}],
+    [ 'EMPTYQUOTE="";', { EMPTYQUOTE => '' }],
+    [ 'EMPTY=;', { EMPTY => '' }],
+    [ 'BADSTART="data;', { BADSTART => '"data' }],
+    [ 'BADEND=data";', { BADEND => 'data"' }],
+
     [ '', {} ],
     [ undef, {} ],
 );
