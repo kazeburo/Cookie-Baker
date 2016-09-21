@@ -13,6 +13,10 @@ BEGIN {
     if (!$use_pp) {
         eval {
             require Cookie::Baker::XS;
+            if ( $Cookie::Baker::XS::VERSION < $VERSION ) {
+                warn "Cookie::Baker::XS $VERSION is require. fallback to PP version";
+                die;
+            }
         };
         $use_pp = !!$@;
     }
