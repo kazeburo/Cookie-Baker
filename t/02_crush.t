@@ -19,7 +19,7 @@ my @tests = (
     [ "Foo=Bar; $longkey=Bar; Bar=Baz", { Foo => 'Bar', $longkey => 'Bar', 'Bar'=>'Baz'}],
 
     # from https://github.com/plack/Plack/pull/564/files
-    [ 'ZZZ="spaced out";', { ZZZ => 'spaced out' }],
+    [ 'ZZZ="spaced out"; XXX=Foo', { ZZZ => 'spaced out', XXX => 'Foo' }],
     [ 'ZZTOP=%22with%20quotes%22;', { ZZTOP => '"with quotes"' }],
     [ 'BOTH="%22internal quotes%22";', { BOTH => '"internal quotes"'}],
     [ 'EMPTYQUOTE="";', { EMPTYQUOTE => '' }],
