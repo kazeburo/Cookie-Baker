@@ -87,7 +87,7 @@ sub pp_crush_cookie {
     my $cookie_string = shift;
     return {} unless $cookie_string;
     my %results;
-    my @pairs = grep m/=/, split "; ?", $cookie_string;
+    my @pairs = grep m/=/, split /; ?/, $cookie_string;
     for my $pair ( @pairs ) {
         # trim leading trailing whitespace
         $pair =~ s/^\s+//; $pair =~ s/\s+$//;
