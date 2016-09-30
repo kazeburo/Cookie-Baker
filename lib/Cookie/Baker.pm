@@ -39,6 +39,9 @@ sub bake_cookie {
     $cookie .= 'path='. $args{path} . '; '       if $args{path};
     $cookie .= 'expires=' . _date($args{expires}) . '; ' if exists $args{expires} && defined $args{expires};
     $cookie .= 'max-age=' . $args{"max-age"} . '; ' if $args{"max-age"};
+    if (exists $args{samesite} && $args{samesite} =~ m/^(?:lax|strict)/i) {
+        $cookie .= 'SameSite=' . ucfirst(lc($args{samesite})) . '; '
+    }
     $cookie .= 'secure; '                     if $args{secure};
     $cookie .= 'HttpOnly; '                   if $args{httponly};
     substr($cookie,-2,2,'');
@@ -78,7 +81,7 @@ sub _date {
     }
     my($sec, $min, $hour, $mday, $mon, $year, $wday) = gmtime($expires_at);
     $year += 1900;
-    # (cookies use '-' as date separator, HTTP uses ' ')    
+    # (cookies use '-' as date separator, HTTP uses ' ')
     return sprintf("%s, %02d-%s-%04d %02d:%02d:%02d GMT",
                    $WDAY[$wday], $mday, $MON[$mon], $year, $hour, $min, $sec);
 }
@@ -152,14 +155,14 @@ There is no XS implementation of bake_cookie yet.
 Generates a cookie string for an HTTP response header.
 The first argument is the cookie's name and the second argument is a plain string or hash reference that
 can contain keys such as C<value>, C<domain>, C<expires>, C<path>, C<httponly>, C<secure>,
-C<max-age>.
+C<max-age>, C<samesite>.
 
 
 =over 4
 
 =item value
 
-Cookie's value
+Cookie's value.
 
 =item domain
 
@@ -167,17 +170,21 @@ Cookie's domain.
 
 =item expires
 
-Cookie's expires date time. Several formats are supported
+Cookie's expires date time. Several formats are supported:
 
   expires => time + 24 * 60 * 60 # epoch time
-  expires => 'Wed, 03-Nov-2010 20:54:16 GMT' 
+  expires => 'Wed, 03-Nov-2010 20:54:16 GMT'
   expires => '+30s' # 30 seconds from now
   expires => '+10m' # ten minutes from now
-  expires => '+1h'  # one hour from now 
+  expires => '+1h'  # one hour from now
   expires => '-1d'  # yesterday (i.e. "ASAP!")
   expires => '+3M'  # in three months
   expires => '+10y' # in ten years time
   expires => 'now'  #immediately
+
+=item max-age
+
+If defined, sets the max-age for the cookie.
 
 =item path
 
@@ -191,14 +198,20 @@ If true, sets HttpOnly flag. false by default.
 
 If true, sets secure flag. false by default.
 
+=item samesite
+
+If defined as 'lax' or 'strict' (case-insensitive), sets the SameSite restriction for the cookie as described in the
+L<draft proposal|https://tools.ietf.org/html/draft-west-first-party-cookies-07>, which is already implemented in
+Chrome (v51) and Opera (v38).
+
 =back
 
 =item crush_cookie
 
-Parses cookie string and returns a hashref. 
+Parses cookie string and returns a hashref.
 
     my $cookies_hashref = crush_cookie($headers->header('Cookie'));
-    my $cookie_value = $cookies_hashref->{cookie_name}  
+    my $cookie_value = $cookies_hashref->{cookie_name}
 
 =back
 
