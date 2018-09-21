@@ -4,7 +4,7 @@
       "Masahiro Nagano <kazeburo@gmail.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v3.0.16, CPAN::Meta::Converter version 2.150010",
+   "generated_by" : "Minilla/v3.1.1, CPAN::Meta::Converter version 2.150005",
    "license" : [
       "perl_5"
    ],
@@ -71,9 +71,11 @@
    },
    "version" : "0.09",
    "x_contributors" : [
+      "David Romano <unobe@cpan.org>",
       "Ichinose Shogo <shogo82148@gmail.com>",
       "Olaf Alders <olaf@wundersolutions.com>",
       "Shoichi Kaji <skaji@cpan.org>"
    ],
-   "x_serialization_backend" : "JSON::PP version 2.27400_02"
+   "x_serialization_backend" : "JSON::PP version 2.27300_01",
+   "x_static_install" : 1
 }
