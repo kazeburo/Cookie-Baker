@@ -39,6 +39,9 @@ sub bake_cookie {
     $cookie .= 'path='. $args{path} . '; '       if $args{path};
     $cookie .= 'expires=' . _date($args{expires}) . '; ' if exists $args{expires} && defined $args{expires};
     $cookie .= 'max-age=' . $args{"max-age"} . '; ' if exists $args{"max-age"};
+    if (exists $args{samesite} && $args{samesite} =~ m/^(?:lax|strict)/i) {
+        $cookie .= 'SameSite=' . ucfirst(lc($args{samesite})) . '; '
+    }
     $cookie .= 'secure; '                     if $args{secure};
     $cookie .= 'HttpOnly; '                   if $args{httponly};
     substr($cookie,-2,2,'');
@@ -152,7 +155,7 @@ There is no XS implementation of bake_cookie yet.
 Generates a cookie string for an HTTP response header.
 The first argument is the cookie's name and the second argument is a plain string or hash reference that
 can contain keys such as C<value>, C<domain>, C<expires>, C<path>, C<httponly>, C<secure>,
-C<max-age>.
+C<max-age>, C<samesite>.
 
 
 =over 4
@@ -190,6 +193,12 @@ If true, sets HttpOnly flag. false by default.
 =item secure
 
 If true, sets secure flag. false by default.
+
+=item samesite
+
+If defined as 'lax' or 'strict' (case-insensitive), sets the SameSite restriction for the cookie as described in the
+L<draft proposal|https://tools.ietf.org/html/draft-west-first-party-cookies-07>, which is already implemented in
+Chrome (v51), Opera (v38) and Firefox (v60).
 
 =back
 
