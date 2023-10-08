@@ -42,6 +42,9 @@ sub bake_cookie {
     if (exists $args{samesite} && $args{samesite} =~ m/^(?:lax|strict|none)/i) {
         $cookie .= 'SameSite=' . ucfirst(lc($args{samesite})) . '; '
     }
+    if (exists $args{partitioned} && (!exists $args{samesite} || $args{samesite} =~ 'none') && exists $args{secure} ){
+        $cookie .= 'Partitioned;
+    }
     $cookie .= 'secure; '                     if $args{secure};
     $cookie .= 'HttpOnly; '                   if $args{httponly};
     substr($cookie,-2,2,'');
