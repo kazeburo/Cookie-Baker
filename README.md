@@ -36,7 +36,7 @@ There is no XS implementation of bake\_cookie yet.
     Generates a cookie string for an HTTP response header.
     The first argument is the cookie's name and the second argument is a plain string or hash reference that
     can contain keys such as `value`, `domain`, `expires`, `path`, `httponly`, `secure`,
-    `max-age`, `samesite`.
+    `max-age`, `samesite`, `partitioned`.
 
     - value
 
@@ -81,6 +81,11 @@ There is no XS implementation of bake\_cookie yet.
         If defined as 'lax' or 'strict' or 'none' (case-insensitive), sets the SameSite restriction for the cookie as described in the
         [draft proposal](https://tools.ietf.org/html/draft-west-first-party-cookies-07), which is already implemented in
         Chrome (v51), Safari (v12), Edge (v16),  Opera (v38) and Firefox (v60).
+
+    - partitioned
+
+        If true, sets Partitioned flag, and also enforces secure, SameSite=None. false by default.
+        [Cookies Having Independent Partitioned State specification](https://www.ietf.org/archive/id/draft-cutler-httpbis-partitioned-cookies-00.html)
 
 - crush\_cookie
 
