@@ -33,7 +33,8 @@ my @tests = (
     [ 'foo', { value => 'val','max-age' => '0' }, 'foo=val; max-age=0'],
     [ 'foo', { value => 'val', samesite => 'lax' }, 'foo=val; SameSite=Lax'],
     [ 'foo', { value => 'val', samesite => 'strict' }, 'foo=val; SameSite=Strict'],
-    [ 'foo', { value => 'val', samesite => 'none' }, 'foo=val; SameSite=None'],
+    [ 'foo', { value => 'val', samesite => 'none' }, 'foo=val; SameSite=None; secure'],
+    [ 'foo', { value => 'val', samesite => 'none', secure => 0 }, 'foo=val; SameSite=None; secure'],
     [ 'foo', { value => 'val', samesite => 'invalid value' }, 'foo=val'],
     [ 'foo', { value => 'val', samesite => 'strict', partitioned => 1 }, 'foo=val; SameSite=None; secure; Partitioned'],
 );

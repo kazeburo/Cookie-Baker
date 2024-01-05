@@ -45,7 +45,9 @@ sub bake_cookie {
     $cookie .= 'expires=' . _date($args{expires}) . '; ' if exists $args{expires} && defined $args{expires};
     $cookie .= 'max-age=' . $args{"max-age"} . '; ' if exists $args{"max-age"};
     if (exists $args{samesite} && $args{samesite} =~ m/^(?:lax|strict|none)/i) {
-        $cookie .= 'SameSite=' . ucfirst(lc($args{samesite})) . '; '
+        $cookie .= 'SameSite=' . ucfirst(lc($args{samesite})) . '; ';
+        # secure flag must be set when SameSite=None
+        $args{secure} = 1 if $cookie =~ m/SameSite=None; /;
     }
     $cookie .= 'secure; '                     if $args{secure};
     $cookie .= 'HttpOnly; '                   if $args{httponly};
