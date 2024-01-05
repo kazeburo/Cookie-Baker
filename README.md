@@ -16,7 +16,7 @@ Cookie::Baker provides simple cookie string generator and parser.
 
 # XS IMPLEMENTATION
 
-This module tries to use [Cookie::Baker::XS](https://metacpan.org/pod/Cookie::Baker::XS)'s crush\_cookie by default.
+This module tries to use [Cookie::Baker::XS](https://metacpan.org/pod/Cookie%3A%3ABaker%3A%3AXS)'s crush\_cookie by default.
 If this fails, it will use Cookie::Baker's pure Perl crush\_cookie.
 
 There is no XS implementation of bake\_cookie yet.
@@ -36,7 +36,7 @@ There is no XS implementation of bake\_cookie yet.
     Generates a cookie string for an HTTP response header.
     The first argument is the cookie's name and the second argument is a plain string or hash reference that
     can contain keys such as `value`, `domain`, `expires`, `path`, `httponly`, `secure`,
-    `max-age`, `samesite`, `partitioned`.
+    `max-age`, `samesite`.
 
     - value
 
@@ -45,6 +45,11 @@ There is no XS implementation of bake\_cookie yet.
     - domain
 
         Cookie's domain.
+
+    - partitioned
+
+        If true, sets Partitioned flag, and also enforces secure, SameSite=None. false by default.
+        [Cookies Having Independent Partitioned State specification](https://www.ietf.org/archive/id/draft-cutler-httpbis-partitioned-cookies-00.html)
 
     - expires
 
@@ -82,11 +87,6 @@ There is no XS implementation of bake\_cookie yet.
         [draft proposal](https://tools.ietf.org/html/draft-west-first-party-cookies-07), which is already implemented in
         Chrome (v51), Safari (v12), Edge (v16),  Opera (v38) and Firefox (v60).
 
-    - partitioned
-
-        If true, sets Partitioned flag, and also enforces secure, SameSite=None. false by default.
-        [Cookies Having Independent Partitioned State specification](https://www.ietf.org/archive/id/draft-cutler-httpbis-partitioned-cookies-00.html)
-
 - crush\_cookie
 
     Parses cookie string and returns a hashref.
@@ -98,7 +98,7 @@ There is no XS implementation of bake\_cookie yet.
 
 CPAN already has many cookie related modules. But there is no simple cookie string generator and parser module.
 
-[CGI](https://metacpan.org/pod/CGI), [CGI::Simple](https://metacpan.org/pod/CGI::Simple), [Plack](https://metacpan.org/pod/Plack), [Dancer::Cookie](https://metacpan.org/pod/Dancer::Cookie)
+[CGI](https://metacpan.org/pod/CGI), [CGI::Simple](https://metacpan.org/pod/CGI%3A%3ASimple), [Plack](https://metacpan.org/pod/Plack), [Dancer::Cookie](https://metacpan.org/pod/Dancer%3A%3ACookie)
 
 # LICENSE
 

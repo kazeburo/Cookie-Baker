@@ -177,6 +177,11 @@ Cookie's value.
 
 Cookie's domain.
 
+=item partitioned
+
+If true, sets Partitioned flag, and also enforces secure, SameSite=None. false by default.
+L<Cookies Having Independent Partitioned State specification|https://www.ietf.org/archive/id/draft-cutler-httpbis-partitioned-cookies-00.html>
+
 =item expires
 
 Cookie's expires date time. Several formats are supported:
