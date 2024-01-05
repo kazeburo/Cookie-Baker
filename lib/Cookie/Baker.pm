@@ -33,6 +33,11 @@ sub bake_cookie {
 
     return '' unless defined $val;
     my %args = ref $val ? %{$val} : (value => $val);
+    if ($args{partitioned}) {
+        # enforce SameSite=None; and secure; on CHIPS (Cookies Having Independent Partitioned State)
+        $args{samesite} = 'none';
+        $args{secure} = 1;
+    }
     $name = URI::Escape::uri_escape($name) if $name =~ m![^a-zA-Z\-\._~]!;
     my $cookie = "$name=" . URI::Escape::uri_escape($args{value}) . '; ';
     $cookie .= 'domain=' . $args{domain} . '; '  if $args{domain};
@@ -44,6 +49,8 @@ sub bake_cookie {
     }
     $cookie .= 'secure; '                     if $args{secure};
     $cookie .= 'HttpOnly; '                   if $args{httponly};
+    $cookie .= 'Partitioned; '                if $args{partitioned};
+
     substr($cookie,-2,2,'');
     $cookie;
 }
