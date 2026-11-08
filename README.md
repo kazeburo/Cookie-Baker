@@ -98,6 +98,10 @@ There is no XS implementation of bake\_cookie yet.
 
     If multiple cookies have the same name, the first one is used.
 
+    If you want to retrieve uri\_decoded cookie name, you can pass the second argument as true.
+
+        my $cookies_hashref = crush_cookie($headers->header('Cookie'), 1); # no uri_decoded cookie names
+
 # SEE ALSO
 
 CPAN already has many cookie related modules. But there is no simple cookie string generator and parser module.

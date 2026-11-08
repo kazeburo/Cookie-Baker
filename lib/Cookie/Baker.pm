@@ -124,6 +124,7 @@ sub _date {
 
 sub pp_crush_cookie {
     my $cookie_string = shift;
+    my $raw_key = shift;
     return {} unless $cookie_string;
     my %results;
     my @pairs = grep m/=/, split /; ?/, $cookie_string;
@@ -133,7 +134,9 @@ sub pp_crush_cookie {
 
         my ($key, $value) = split( "=", $pair, 2 );
 
-        $key = URI::Escape::uri_unescape($key);
+        if (!$raw_key) {
+            $key = URI::Escape::uri_unescape($key);
+        }
 
         # Values can be quoted
         $value = "" unless defined $value;
@@ -256,6 +259,10 @@ Parses cookie string and returns a hashref.
     my $cookie_value = $cookies_hashref->{cookie_name}
 
 If multiple cookies have the same name, the first one is used.
+
+If you want to retrieve uri_decoded cookie name, you can pass the second argument as true.
+
+    my $cookies_hashref = crush_cookie($headers->header('Cookie'), 1); # no uri_decoded cookie names
 
 =back
 
