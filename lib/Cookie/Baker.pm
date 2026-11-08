@@ -28,6 +28,18 @@ BEGIN {
     }
 }
 
+
+sub valid_path {
+    my $path = shift;
+    for my $s (split //, $path) {
+        my $hex = hex(ord($s));
+        return 0 if 0x20 > $hex;
+        return 0 if $hex >= 0x7f;
+        return 0 if $hex == 0x3b; # 0x3b is ';'
+    }
+    return 1;
+}
+
 sub bake_cookie {
     my ($name,$val) = @_;
 
@@ -37,6 +49,20 @@ sub bake_cookie {
         # enforce SameSite=None; and secure; on CHIPS (Cookies Having Independent Partitioned State)
         $args{samesite} = 'none';
         $args{secure} = 1;
+    }
+
+    # validation for domain, path and max-age
+    if (exists $args{domain} && $args{domain} !~ /^[a-zA-Z0-9\.\-]+$/) {
+        warn "Invalid domain: $args{domain}";
+        delete $args{domain};
+    }
+    if (exists $args{path} && !valid_path($args{path})) {
+        warn "Invalid path: $args{path}";
+        delete $args{path};
+    }
+    if (exists $args{"max-age"} && $args{"max-age"} !~ /^\d+$/) {
+        warn "Invalid max-age: " . $args{"max-age"};
+        delete $args{"max-age"};
     }
 
     $name = URI::Escape::uri_escape($name) if $name =~ m![^a-zA-Z\-\._~]!;
