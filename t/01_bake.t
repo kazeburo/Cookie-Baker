@@ -36,6 +36,7 @@ my @tests = (
     [ 'foo', { value => 'val', samesite => 'none' }, 'foo=val; SameSite=None; secure'],
     [ 'foo', { value => 'val', samesite => 'none', secure => 0 }, 'foo=val; SameSite=None; secure'],
     [ 'foo', { value => 'val', samesite => 'invalid value' }, 'foo=val'],
+    [ 'foo', { value => 'val', samesite => 'lax42' }, 'foo=val'],
     [ 'foo', { value => 'val', samesite => 'strict', partitioned => 1 }, 'foo=val; SameSite=None; secure; Partitioned'],
 );
 

@@ -38,13 +38,14 @@ sub bake_cookie {
         $args{samesite} = 'none';
         $args{secure} = 1;
     }
+
     $name = URI::Escape::uri_escape($name) if $name =~ m![^a-zA-Z\-\._~]!;
     my $cookie = "$name=" . URI::Escape::uri_escape($args{value}) . '; ';
     $cookie .= 'domain=' . $args{domain} . '; '  if $args{domain};
     $cookie .= 'path='. $args{path} . '; '       if $args{path};
     $cookie .= 'expires=' . _date($args{expires}) . '; ' if exists $args{expires} && defined $args{expires};
     $cookie .= 'max-age=' . $args{"max-age"} . '; ' if exists $args{"max-age"};
-    if (exists $args{samesite} && $args{samesite} =~ m/^(?:lax|strict|none)/i) {
+    if (exists $args{samesite} && $args{samesite} =~ m/\A(?:lax|strict|none)\Z/i) {
         $cookie .= 'SameSite=' . ucfirst(lc($args{samesite})) . '; ';
         # secure flag must be set when SameSite=None
         $args{secure} = 1 if $cookie =~ m/SameSite=None; /;
@@ -166,6 +167,7 @@ The first argument is the cookie's name and the second argument is a plain strin
 can contain keys such as C<value>, C<domain>, C<expires>, C<path>, C<httponly>, C<secure>,
 C<max-age>, C<samesite>.
 
+domain, path and max-age should be validated to not include `;` and other special characters.
 
 =over 4
 
@@ -186,7 +188,7 @@ L<Cookies Having Independent Partitioned State specification|https://www.ietf.or
 
 Cookie's expires date time. Several formats are supported:
 
-  expires => time + 24 * 60 * 60 # epoch time
+  expires => time + 24 * 60 * 60 # epoch time (without subseconds)
   expires => 'Wed, 03-Nov-2010 20:54:16 GMT'
   expires => '+30s' # 30 seconds from now
   expires => '+10m' # ten minutes from now
@@ -226,6 +228,8 @@ Parses cookie string and returns a hashref.
 
     my $cookies_hashref = crush_cookie($headers->header('Cookie'));
     my $cookie_value = $cookies_hashref->{cookie_name}
+
+If multiple cookies have the same name, the first one is used.
 
 =back
 
