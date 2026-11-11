@@ -32,7 +32,7 @@ BEGIN {
 sub valid_path {
     my $path = shift;
     for my $s (split //, $path) {
-        my $hex = hex(ord($s));
+        my $hex = ord($s);
         return 0 if 0x20 > $hex;
         return 0 if $hex >= 0x7f;
         return 0 if $hex == 0x3b; # 0x3b is ';'
