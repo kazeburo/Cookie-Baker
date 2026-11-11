@@ -69,7 +69,7 @@
          "web" : "https://github.com/kazeburo/Cookie-Baker"
       }
    },
-   "version" : "0.12",
+   "version" : "0.13",
    "x_contributors" : [
       "David Romano <unobe@cpan.org>",
       "Ichinose Shogo <shogo82148@gmail.com>",
