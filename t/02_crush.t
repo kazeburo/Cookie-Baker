@@ -17,6 +17,7 @@ my @tests = (
     [ 'Foo=Bar; Bar=Baz;  XXX=Foo%20Bar   ; YYY=; ', { Foo => 'Bar', Bar => 'Baz', XXX => 'Foo Bar',YYY=>"" }],
     [ "Foo=Bar; $longkey=Bar", { Foo => 'Bar', $longkey => 'Bar'}],
     [ "Foo=Bar; $longkey=Bar; Bar=Baz", { Foo => 'Bar', $longkey => 'Bar', 'Bar'=>'Baz'}],
+    [ 'foo=bar; domain=.example.com; path=/cgi-bin', { foo => 'bar', path => '/cgi-bin', domain => '.example.com' }],
 
     # from https://github.com/plack/Plack/pull/564/files
     [ 'ZZZ="spaced out"; XXX=Foo', { ZZZ => 'spaced out', XXX => 'Foo' }],

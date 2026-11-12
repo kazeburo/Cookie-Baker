@@ -42,6 +42,7 @@ my @tests = (
     [ 'foo', { value => 'val', samesite => 'invalid value' }, 'foo=val'],
     [ 'foo', { value => 'val', samesite => 'lax42' }, 'foo=val'],
     [ 'foo', { value => 'val', samesite => 'strict', partitioned => 1 }, 'foo=val; SameSite=None; secure; Partitioned'],
+    [ 'foo', { value => 'bar', path => '/cgi-bin', domain => '.example.com' }, 'foo=bar; domain=.example.com; path=/cgi-bin'],
 );
 
 for my $test (@tests) {
